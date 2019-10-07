@@ -17,8 +17,14 @@ var cookieHandler = securecookie.New(
 
 // for GET Main Page
 func LoginPageHandler(response http.ResponseWriter, request *http.Request) {
-	var body, _ = helpers.LoadFile("templates/login.html")
-	fmt.Fprintf(response, body)
+	//Session validation on login page
+	userName := GetUserName(request)
+	if !helpers.IsEmpty(userName) {
+		http.Redirect(response, request, "/index", 302)
+	} else {
+		var body, _ = helpers.LoadFile("templates/login.html")
+		fmt.Fprintf(response, body)
+	}
 }
 
 // for POST Main
