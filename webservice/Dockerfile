@@ -10,7 +10,10 @@ RUN go install -v ./...
 #final stage
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
-COPY --from=builder /go/bin/app /app
-ENTRYPOINT ./app
-LABEL Name=medusaWeb Version=0.0.1
+RUN mkdir -p /opt/medusaweb
+COPY --from=builder /go/bin/app /opt/medusaweb/app
+COPY templates /opt/medusaweb/templates
+WORKDIR /opt/medusaweb/
+ENTRYPOINT /opt/medusaweb/app
+LABEL Name=medusaweb Version=0.0.1
 EXPOSE 8080
