@@ -15,7 +15,7 @@ var cookieHandler = securecookie.New(
 
 // Handlers
 
-// for GET Main Page
+//LoginPageHandler for GET Main Page
 func LoginPageHandler(response http.ResponseWriter, request *http.Request) {
 	//Session validation on login page
 	userName := GetUserName(request)
@@ -27,7 +27,7 @@ func LoginPageHandler(response http.ResponseWriter, request *http.Request) {
 	}
 }
 
-// for POST Main
+//LoginHandler for POST Main
 func LoginHandler(response http.ResponseWriter, request *http.Request) {
 	name := request.FormValue("name")
 	pass := request.FormValue("password")
@@ -46,13 +46,13 @@ func LoginHandler(response http.ResponseWriter, request *http.Request) {
 	http.Redirect(response, request, redirectTarget, 302)
 }
 
-// for GET
+//RegisterPageHandler for GET
 func RegisterPageHandler(response http.ResponseWriter, request *http.Request) {
 	var body, _ = helpers.LoadFile("templates/register.html")
 	fmt.Fprintf(response, body)
 }
 
-// for POST
+//RegisterHandler for POST
 func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
@@ -77,7 +77,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// for GET
+//IndexPageHandler for GET
 func IndexPageHandler(response http.ResponseWriter, request *http.Request) {
 	userName := GetUserName(request)
 	if !helpers.IsEmpty(userName) {
@@ -88,14 +88,13 @@ func IndexPageHandler(response http.ResponseWriter, request *http.Request) {
 	}
 }
 
-// for POST
+//LogoutHandler for POST
 func LogoutHandler(response http.ResponseWriter, request *http.Request) {
 	ClearCookie(response)
 	http.Redirect(response, request, "/", 302)
 }
 
-// Cookie
-
+//SetCookie Cookie
 func SetCookie(userName string, response http.ResponseWriter) {
 	value := map[string]string{
 		"name": userName,
@@ -110,6 +109,7 @@ func SetCookie(userName string, response http.ResponseWriter) {
 	}
 }
 
+//ClearCookie remove the cookie
 func ClearCookie(response http.ResponseWriter) {
 	cookie := &http.Cookie{
 		Name:   "cookie",
@@ -120,6 +120,7 @@ func ClearCookie(response http.ResponseWriter) {
 	http.SetCookie(response, cookie)
 }
 
+//GetUserName Get User Name
 func GetUserName(request *http.Request) (userName string) {
 	if cookie, err := request.Cookie("cookie"); err == nil {
 		cookieValue := make(map[string]string)
