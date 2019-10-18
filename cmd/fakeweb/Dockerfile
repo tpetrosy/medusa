@@ -6,7 +6,6 @@ COPY . .
 RUN apk add --no-cache git
 RUN ls -la
 RUN go version
-RUN ls -la ./internal
 RUN go get -d -v ./...
 RUN go install -v ./...
 
