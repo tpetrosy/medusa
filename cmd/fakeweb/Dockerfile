@@ -8,14 +8,15 @@ RUN ls -la
 RUN go version
 RUN go get -d -v ./...
 RUN go install -v ./...
+RUN ls -la /go/bin
 
 #final stage
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
-RUN mkdir -p /opt/fakeweb
-COPY --from=builder /go/bin/app /opt/fakeweb/app
-COPY internal/templates /opt/fakeweb/internal/templates
-WORKDIR /opt/fakeweb/
-ENTRYPOINT /opt/fakeweb/app
+RUN mkdir -p /opt/app
+COPY --from=builder /go/bin/fakeweb /opt/app/fakeweb
+COPY internal/templates /opt/app/internal/templates
+WORKDIR /opt/app/
+ENTRYPOINT /opt/app/fakeweb
 LABEL Name=fakeweb Version=0.0.1
 EXPOSE 8080
