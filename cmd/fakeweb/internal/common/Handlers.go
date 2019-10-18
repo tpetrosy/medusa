@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/securecookie"
-	helpers "github.com/tpetrosy/medusa/webservice/helpers"
-	repos "github.com/tpetrosy/medusa/webservice/repos"
+	helpers "github.com/tpetrosy/medusa/cmd/fakeweb/internal/helpers"
+	repos "github.com/tpetrosy/medusa/cmd/fakeweb/internal/repos"
 )
 
 var cookieHandler = securecookie.New(
@@ -22,7 +22,7 @@ func LoginPageHandler(response http.ResponseWriter, request *http.Request) {
 	if !helpers.IsEmpty(userName) {
 		http.Redirect(response, request, "/index", 302)
 	} else {
-		var body, _ = helpers.LoadFile("templates/login.html")
+		var body, _ = helpers.LoadFile("internal/templates/login.html")
 		fmt.Fprintf(response, body)
 	}
 }
@@ -48,7 +48,7 @@ func LoginHandler(response http.ResponseWriter, request *http.Request) {
 
 //RegisterPageHandler for GET
 func RegisterPageHandler(response http.ResponseWriter, request *http.Request) {
-	var body, _ = helpers.LoadFile("templates/register.html")
+	var body, _ = helpers.LoadFile("internal/templates/register.html")
 	fmt.Fprintf(response, body)
 }
 
@@ -81,7 +81,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 func IndexPageHandler(response http.ResponseWriter, request *http.Request) {
 	userName := GetUserName(request)
 	if !helpers.IsEmpty(userName) {
-		var indexBody, _ = helpers.LoadFile("templates/index.html")
+		var indexBody, _ = helpers.LoadFile("internal/templates/index.html")
 		fmt.Fprintf(response, indexBody, userName)
 	} else {
 		http.Redirect(response, request, "/", 302)

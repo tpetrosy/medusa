@@ -12,7 +12,7 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 RUN mkdir -p /opt/medusaweb
 COPY --from=builder /go/bin/app /opt/medusaweb/app
-COPY templates /opt/medusaweb/templates
+COPY internal/templates /opt/medusaweb/templates
 WORKDIR /opt/medusaweb/
 ENTRYPOINT /opt/medusaweb/app
 LABEL Name=medusaweb Version=0.0.1

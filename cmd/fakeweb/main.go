@@ -6,7 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	common "github.com/tpetrosy/medusa/webservice/common"
+	common "github.com/tpetrosy/medusa/cmd/fakeweb/internal/common"
 )
 
 var router = mux.NewRouter()
